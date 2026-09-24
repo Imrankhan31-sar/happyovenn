@@ -1,19 +1,19 @@
 /* Edit bakery contact details, menu copy, imagery and FAQ answers here. */
 const BAKERY = {
-  whatsapp: "", // Digits only, including country code, e.g. 91XXXXXXXXXX
-  phone: "", // International format, e.g. +91XXXXXXXXXX
+  whatsapp: "919307290527", // Digits only, including country code
+  phone: "+919307290527", // International format
   instagramUrl: "https://www.instagram.com/the_happy_ovenn?stkn=MWx0ZHMzbXpyY3Fx",
   instagramHandle: "@the_happy_ovenn",
   pickupInfo: "Pickup and delivery details are confirmed when you enquire.",
 };
 
 const PRODUCTS = [
-  { name: "Kesar Mawa Cake", category: "dry-cakes", label: "Dry cake", description: "A much-loved homemade cake for sharing and celebrating.", size: "Ask for available size", image: "assets/custom-cake.png", alt: "Pink celebration cake decorated with piped flowers" },
+  { name: "Kesar Mawa Cake", category: "dry-cakes", label: "Dry cake", description: "A much-loved homemade cake for sharing and celebrating.", size: "Ask for available size", image: "assets/custom-cake.png", alt: "Birthday cake decorated with piped cream, chocolate, fruit and a custom topper" },
   { name: "Aata Jaggery Cake", category: "dry-cakes", label: "Dry cake", description: "A comforting homemade favourite, baked fresh to order.", size: "Ask for available size", image: "assets/aata-jaggery-cake-source.png", crop: "round-cake-crop", alt: "Round Aata Jaggery cake topped with seeds" },
   { name: "Chocolate Banana", category: "dry-cakes", label: "Dry cake", description: "A rich, tender bake for everyday cravings and little celebrations.", size: "Ask for available size", image: "assets/chocolate-banana-cake.png", alt: "Chocolate birthday cake with chocolate decorations" },
   { name: "Fudgy Nutella Brownie Slab / Cake", category: "brownies", label: "Brownie", description: "A generously fudgy chocolate bake, made for sharing.", size: "Slab or cake — enquire", image: "assets/fudgy-nutella-brownie.png", alt: "Chocolate brownie slab with chocolate drizzle and gold decorations" },
   { name: "Nutella Bento Brownie", category: "brownies", label: "Brownie", description: "A little box of brownie goodness for gifting or keeping.", size: "Ask for available size", image: "assets/nutella-bento-brownie.jpeg", alt: "Small chocolate cake treat in a bowl" },
-  { name: "Salted Caramel & Chocolate Cake Bowl", category: "other-treats", label: "Cake bowl", description: "A layered little treat for a moment of indulgence.", size: "Ask for available size", image: "assets/img-6748.HEIC", fallback: "assets/nutella-bento-brownie.jpeg", alt: "Chocolate cake bowl" },
+  { name: "Salted Caramel & Chocolate Cake Bowl", category: "other-treats", label: "Cake bowl", description: "A layered little treat for a moment of indulgence.", size: "Ask for available size", image: "assets/salted-caramel-chocolate-cake-bowl.jpg", alt: "Two chocolate bakes wrapped with ribbons and Happy Oven thank-you labels" },
   { name: "Scoopable Cookie Tin", category: "other-treats", label: "Cookie tin", description: "A scoopable treat, perfect for sharing or gifting.", size: "Ask for available size", image: "photo-1558961363-fa8fdf82db35", alt: "Freshly baked cookies ready to share" },
 ];
 
@@ -26,43 +26,28 @@ const FAQS = [
   ["Where can I collect my order?", BAKERY.pickupInfo],
   ["How should I store the cakes and brownies?", "Storage can depend on the bake. We’ll share care and serving guidance when we confirm your order."],
   ["Can I customise the packaging?", "Let us know what you have in mind. We can discuss packaging options when confirming your order."],
-  ["How do I place an order?", "Choose a favourite, fill in the enquiry form and we’ll get back to confirm availability, details and pricing."],
+  ["How do I place an order?", "Choose a favourite and message us on WhatsApp. We’ll confirm availability, details and pricing with you."],
 ];
 
 const imageUrl = (source, width = 720) => source.startsWith("assets/") ? source : `https://images.unsplash.com/${source}?auto=format&fit=crop&w=${width}&q=82`;
 const imageAttrs = (item, width = 720) => `src="${imageUrl(item.image, width)}" ${item.fallback ? `data-fallback="${item.fallback}"` : ""}`;
-const productCard = (item) => `
-  <article class="product-card reveal">
+const whatsappOrderLink = (productName) => `https://wa.me/${BAKERY.whatsapp}?text=${encodeURIComponent(`Hi The Happy Oven! I'd like to ask about ${productName}.`)}`;
+const productCard = (item, menuItem = false) => `
+  <article class="product-card reveal${menuItem ? " menu-item" : ""}" ${menuItem ? `data-category="${item.category}"` : ""}>
     <div class="product-image-wrap"><img class="${item.crop || ""}" ${imageAttrs(item, 760)} alt="${item.alt}" loading="lazy" /><span class="product-badge">${item.label}</span></div>
-    <div class="product-info"><h3 class="product-name">${item.name}</h3><p class="product-description">${item.description}</p><div class="product-meta"><span>${item.size}</span><a class="product-order" href="#order" data-product="${item.name}">Ask price in ₹ <span aria-hidden="true">↗</span></a></div></div>
+    <div class="product-info"><h3 class="product-name">${item.name}</h3><p class="product-description">${item.description}</p><div class="product-meta"><span>${item.size}</span><a class="product-order" href="${whatsappOrderLink(item.name)}" target="_blank" rel="noopener noreferrer">Ask price in ₹ <span aria-hidden="true">↗</span></a></div></div>
   </article>`;
 
-document.querySelector("#featured-products").innerHTML = PRODUCTS.map(productCard).join("");
-document.querySelector("#menu-list").innerHTML = PRODUCTS.map((item) => `
-  <article class="menu-item" data-category="${item.category}">
-    <img class="${item.crop || ""}" ${imageAttrs(item, 420)} alt="${item.alt}" loading="lazy" />
-    <div class="menu-item-copy"><h3>${item.name}</h3><p>${item.description}</p><div class="product-meta"><span>${item.size}</span><a class="product-order" href="#order" data-product="${item.name}">Enquire for ₹ price ↗</a></div></div>
-  </article>`).join("");
+document.querySelector("#featured-products").innerHTML = PRODUCTS.map((item) => productCard(item)).join("");
+document.querySelector("#menu-list").innerHTML = PRODUCTS.map((item) => productCard(item, true)).join("");
 
 const galleryItems = [
-  { image: "assets/custom-cake.png", alt: "Pink celebration cake with piped flower details", caption: "A little celebration cake" },
-  { image: "assets/aata-jaggery-cake-source.png", crop: "round-cake-crop", alt: "Round Aata Jaggery cake topped with seeds", caption: "A homemade favourite" },
-  { image: "assets/chocolate-banana-cake.png", alt: "Chocolate birthday cake decorated with chocolate treats", caption: "Made for your moment" },
-  { image: "assets/fudgy-nutella-brownie.png", alt: "Fudgy chocolate brownie slab", caption: "Brownie moments" },
-  { image: "assets/nutella-bento-brownie.jpeg", alt: "Small chocolate cake treat in a bowl", caption: "A little chocolate treat" },
+  ...PRODUCTS.slice(0, 6).map((item) => ({ ...item, caption: item.name })),
 ];
 document.querySelector("#gallery-grid").innerHTML = galleryItems.map((item) => `<figure class="gallery-photo reveal"><img class="${item.crop || ""}" ${imageAttrs(item, 760)} alt="${item.alt}" loading="lazy" /><figcaption>${item.caption}</figcaption></figure>`).join("");
 document.querySelector("#insta-grid").innerHTML = [PRODUCTS[3], PRODUCTS[0], PRODUCTS[5]].map((item) => `<img ${imageAttrs(item, 550)} alt="${item.alt}" loading="lazy" />`).join("");
 
-// Some browsers do not decode HEIC. Use the provided cake-bowl picture as its fallback.
-document.querySelectorAll("img[data-fallback]").forEach((img) => img.addEventListener("error", () => {
-  const fallback = img.dataset.fallback;
-  if (fallback) { img.src = fallback; img.removeAttribute("data-fallback"); }
-}, { once: true }));
-
 document.querySelector("#faq-list").innerHTML = FAQS.map(([question, answer], index) => `<article class="faq-item"><button class="faq-question" aria-expanded="${index === 0}" aria-controls="faq-answer-${index}" id="faq-question-${index}">${question}<span aria-hidden="true">+</span></button><div class="faq-answer" id="faq-answer-${index}" role="region" aria-labelledby="faq-question-${index}" ${index === 0 ? "" : "hidden"}>${answer}</div></article>`).join("");
-const productSelect = document.querySelector("#product-select");
-productSelect.insertAdjacentHTML("beforeend", PRODUCTS.map((item) => `<option value="${item.name}">${item.name}</option>`).join("") + '<option value="Custom celebration cake">Custom celebration cake</option>');
 
 const nav = document.querySelector("#primary-nav");
 const menuToggle = document.querySelector(".menu-toggle");
@@ -88,11 +73,6 @@ document.querySelector("#faq-list").addEventListener("click", (event) => {
   button.setAttribute("aria-expanded", String(!expanded));
   document.getElementById(button.getAttribute("aria-controls")).hidden = expanded;
 });
-document.addEventListener("click", (event) => {
-  const productLink = event.target.closest("[data-product]");
-  if (productLink) productSelect.value = productLink.dataset.product;
-});
-
 const lightbox = document.querySelector("#lightbox");
 const lightboxImage = lightbox.querySelector("img");
 document.querySelector("#gallery-grid").addEventListener("click", (event) => {
@@ -103,22 +83,8 @@ document.querySelector("#gallery-grid").addEventListener("click", (event) => {
 lightbox.querySelector(".lightbox-close").addEventListener("click", () => lightbox.close());
 lightbox.addEventListener("click", (event) => { if (event.target === lightbox) lightbox.close(); });
 
-const orderMessage = (data) => [
-  "Hi The Happy Oven! I'd like to place an order.", `Name: ${data.get("name")}`, `Phone: ${data.get("phone")}`,
-  `Email: ${data.get("email") || "Not provided"}`, `Product: ${data.get("product")}`, `Quantity: ${data.get("quantity") || "1"}`,
-  `Preferred date: ${data.get("date") || "Flexible"}`, `Pickup / delivery: ${data.get("fulfilment")}`,
-  `Customisation: ${data.get("customisation") || "None provided"}`, `Message: ${data.get("message") || "None"}`,
-].join("\n");
-document.querySelector("#order-form").addEventListener("submit", (event) => {
-  event.preventDefault();
-  if (!event.currentTarget.reportValidity()) return;
-  const data = new FormData(event.currentTarget);
-  const destination = BAKERY.whatsapp ? `https://wa.me/${BAKERY.whatsapp}` : "https://wa.me/";
-  window.open(`${destination}?text=${encodeURIComponent(orderMessage(data))}`, "_blank", "noopener,noreferrer");
-  document.querySelector("#form-status").textContent = "Your order details are ready in WhatsApp. Please send the message to complete your enquiry.";
-});
 document.querySelectorAll('[data-contact="whatsapp"]').forEach((link) => {
-  link.href = `https://wa.me/${BAKERY.whatsapp}?text=${encodeURIComponent("Hi The Happy Oven! I'd like to place an order.")}`;
+  link.href = whatsappOrderLink("a bake");
   link.target = "_blank"; link.rel = "noopener noreferrer";
 });
 document.querySelectorAll('[data-contact="phone"]').forEach((link) => { link.href = BAKERY.phone ? `tel:${BAKERY.phone}` : "#order"; });

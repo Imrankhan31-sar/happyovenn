@@ -9,4 +9,4 @@ Responsive, single-page bakery site built with plain HTML, CSS and JavaScript. O
 - Update FAQ answers in the `FAQS` list.
 - Real prices and sizes were not supplied, so products ask customers to enquire.
 
-The supplied logo and product photos are stored in `assets/`. Product images are reused consistently in the favourites, full menu and gallery. The HEIC photo is kept as supplied; browsers without HEIC support will use the supplied bowl-cake JPEG as a fallback.
+The supplied logo and product photos are stored in `assets/`. Product images are reused consistently in the favourites, full menu and gallery. The original HEIC photo is preserved, and its JPEG conversion is used on the website for reliable browser support.

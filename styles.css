@@ -22,6 +22,71 @@
     line-height:1.5;
   }
 }
+
+/* Keep the full menu on the same aligned product-card system as Our Favourites. */
+.menu-list{
+  max-width:none;
+  margin:0;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  align-items:stretch;
+}
+.menu-list .menu-item[hidden]{display:none}
+.menu-list .product-card{height:100%;display:flex;flex-direction:column}
+.menu-list .product-image-wrap{height:320px}
+.menu-list .product-info{flex:1;display:flex;flex-direction:column}
+.menu-list .product-description{min-height:40px}
+.menu-list .product-meta{margin-top:auto;flex-wrap:wrap;gap:8px}
+.menu-list .product-meta>span{flex:1 1 100px}
+.menu-list .product-order{white-space:nowrap}
+
+/* Give the gallery a regular responsive grid and keep its photos in line. */
+.gallery-grid{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  grid-template-rows:none;
+  grid-auto-rows:clamp(200px,25vw,330px);
+}
+.gallery-photo:nth-child(1){grid-row:auto}
+.gallery-photo:nth-child(4){grid-column:auto}
+.gallery-photo img.round-cake-crop{object-fit:cover}
+.instagram-follow{grid-column:1/-1;justify-self:center;margin-top:-12px}
+
+/* Center the contact section around its direct order options, without a form. */
+.order-section{display:block}
+.order-aside{max-width:780px;margin:0 auto;padding:0;text-align:center}
+.order-aside>p:not(.eyebrow){max-width:520px;margin:20px auto}
+.contact-links{
+  max-width:760px;
+  margin:32px auto 0;
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+}
+.contact-links a{
+  min-height:56px;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  padding:12px;
+  border:1px solid #ccbeb2;
+  background:#fffdf94d;
+}
+@media(max-width:760px){
+  .menu-list{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .menu-list .product-image-wrap{height:auto;aspect-ratio:.87}
+  .menu-list .product-info{padding:14px 4px 10px}
+  .menu-list .product-name{font-size:17px}
+  .gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:auto;gap:9px}
+  .gallery-photo{aspect-ratio:1/1}
+  .gallery-photo:nth-child(1),.gallery-photo:nth-child(4){grid-column:auto;grid-row:auto}
+  .gallery-photo img{height:100%}
+  .instagram-follow{grid-column:1;justify-self:start;margin-top:0}
+  .contact-links{grid-template-columns:1fr;max-width:400px}
+}
+@media(max-width:390px){
+  .menu-list{grid-template-columns:1fr}
+  .menu-list .product-image-wrap{aspect-ratio:1.05}
+  .contact-links a{min-height:52px}
+}
 .story{display:block;padding-top:88px;padding-bottom:88px}
 .story-copy{max-width:760px;margin:0 auto;text-align:center}
 .story-copy>p:not(.eyebrow):not(.signature){margin-left:auto;margin-right:auto}
