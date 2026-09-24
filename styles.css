@@ -39,16 +39,9 @@
 .menu-list .product-meta>span{flex:1 1 100px}
 .menu-list .product-order{white-space:nowrap}
 
-/* Give the gallery a regular responsive grid and keep its photos in line. */
-.gallery-grid{
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  grid-template-rows:none;
-  grid-auto-rows:clamp(200px,25vw,330px);
-}
-.gallery-photo:nth-child(1){grid-row:auto}
-.gallery-photo:nth-child(4){grid-column:auto}
-.gallery-photo img.round-cake-crop{object-fit:cover}
+/* Keep the Instagram handle below its aligned photo row. */
 .instagram-follow{grid-column:1/-1;justify-self:center;margin-top:-12px}
+.insta-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
 
 /* Center the contact section around its direct order options, without a form. */
 .order-section{display:block}
@@ -75,10 +68,7 @@
   .menu-list .product-image-wrap{height:auto;aspect-ratio:.87}
   .menu-list .product-info{padding:14px 4px 10px}
   .menu-list .product-name{font-size:17px}
-  .gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:auto;gap:9px}
-  .gallery-photo{aspect-ratio:1/1}
-  .gallery-photo:nth-child(1),.gallery-photo:nth-child(4){grid-column:auto;grid-row:auto}
-  .gallery-photo img{height:100%}
+  .insta-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
   .instagram-follow{grid-column:1;justify-self:start;margin-top:0}
   .contact-links{grid-template-columns:1fr;max-width:400px}
 }

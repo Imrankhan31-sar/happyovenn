@@ -10,10 +10,10 @@ const BAKERY = {
 const PRODUCTS = [
   { name: "Kesar Mawa Cake", category: "dry-cakes", label: "Dry cake", description: "A much-loved homemade cake for sharing and celebrating.", size: "Ask for available size", image: "assets/custom-cake.png", alt: "Birthday cake decorated with piped cream, chocolate, fruit and a custom topper" },
   { name: "Aata Jaggery Cake", category: "dry-cakes", label: "Dry cake", description: "A comforting homemade favourite, baked fresh to order.", size: "Ask for available size", image: "assets/aata-jaggery-cake-source.png", crop: "round-cake-crop", alt: "Round Aata Jaggery cake topped with seeds" },
-  { name: "Chocolate Banana", category: "dry-cakes", label: "Dry cake", description: "A rich, tender bake for everyday cravings and little celebrations.", size: "Ask for available size", image: "assets/chocolate-banana-cake.png", alt: "Chocolate birthday cake with chocolate decorations" },
-  { name: "Fudgy Nutella Brownie Slab / Cake", category: "brownies", label: "Brownie", description: "A generously fudgy chocolate bake, made for sharing.", size: "Slab or cake — enquire", image: "assets/fudgy-nutella-brownie.png", alt: "Chocolate brownie slab with chocolate drizzle and gold decorations" },
-  { name: "Nutella Bento Brownie", category: "brownies", label: "Brownie", description: "A little box of brownie goodness for gifting or keeping.", size: "Ask for available size", image: "assets/nutella-bento-brownie.jpeg", alt: "Small chocolate cake treat in a bowl" },
-  { name: "Salted Caramel & Chocolate Cake Bowl", category: "other-treats", label: "Cake bowl", description: "A layered little treat for a moment of indulgence.", size: "Ask for available size", image: "assets/salted-caramel-chocolate-cake-bowl.jpg", alt: "Two chocolate bakes wrapped with ribbons and Happy Oven thank-you labels" },
+  { name: "Chocolate Banana", category: "dry-cakes", label: "Dry cake", description: "A rich, tender bake for everyday cravings and little celebrations.", size: "Ask for available size", image: "assets/salted-caramel-chocolate-cake-bowl.jpg", alt: "Two chocolate bakes wrapped with ribbons and Happy Oven thank-you labels" },
+  { name: "Fudgy Nutella Brownie Slab / Cake", category: "brownies", label: "Brownie", description: "A generously fudgy chocolate bake, made for sharing.", size: "Slab or cake — enquire", image: "assets/chocolate-banana-cake.png", alt: "Chocolate birthday cake with chocolate decorations" },
+  { name: "Nutella Bento Brownie", category: "brownies", label: "Brownie", description: "A little box of brownie goodness for gifting or keeping.", size: "Ask for available size", image: "assets/fudgy-nutella-brownie.png", alt: "Chocolate brownie with chocolate drizzle served in a white tray" },
+  { name: "Salted Caramel & Chocolate Cake Bowl", category: "other-treats", label: "Cake bowl", description: "A layered little treat for a moment of indulgence.", size: "Ask for available size", image: "assets/nutella-bento-brownie.jpeg", alt: "Chocolate cake bowl in a branded cup topped with chocolate drizzle and chips" },
   { name: "Scoopable Cookie Tin", category: "other-treats", label: "Cookie tin", description: "A scoopable treat, perfect for sharing or gifting.", size: "Ask for available size", image: "photo-1558961363-fa8fdf82db35", alt: "Freshly baked cookies ready to share" },
 ];
 
@@ -41,11 +41,7 @@ const productCard = (item, menuItem = false) => `
 document.querySelector("#featured-products").innerHTML = PRODUCTS.map((item) => productCard(item)).join("");
 document.querySelector("#menu-list").innerHTML = PRODUCTS.map((item) => productCard(item, true)).join("");
 
-const galleryItems = [
-  ...PRODUCTS.slice(0, 6).map((item) => ({ ...item, caption: item.name })),
-];
-document.querySelector("#gallery-grid").innerHTML = galleryItems.map((item) => `<figure class="gallery-photo reveal"><img class="${item.crop || ""}" ${imageAttrs(item, 760)} alt="${item.alt}" loading="lazy" /><figcaption>${item.caption}</figcaption></figure>`).join("");
-document.querySelector("#insta-grid").innerHTML = [PRODUCTS[3], PRODUCTS[0], PRODUCTS[5]].map((item) => `<img ${imageAttrs(item, 550)} alt="${item.alt}" loading="lazy" />`).join("");
+document.querySelector("#insta-grid").innerHTML = [PRODUCTS[2], PRODUCTS[3], PRODUCTS[4], PRODUCTS[5]].map((item) => `<img ${imageAttrs(item, 550)} alt="${item.alt}" loading="lazy" />`).join("");
 
 document.querySelector("#faq-list").innerHTML = FAQS.map(([question, answer], index) => `<article class="faq-item"><button class="faq-question" aria-expanded="${index === 0}" aria-controls="faq-answer-${index}" id="faq-question-${index}">${question}<span aria-hidden="true">+</span></button><div class="faq-answer" id="faq-answer-${index}" role="region" aria-labelledby="faq-question-${index}" ${index === 0 ? "" : "hidden"}>${answer}</div></article>`).join("");
 
@@ -75,7 +71,7 @@ document.querySelector("#faq-list").addEventListener("click", (event) => {
 });
 const lightbox = document.querySelector("#lightbox");
 const lightboxImage = lightbox.querySelector("img");
-document.querySelector("#gallery-grid").addEventListener("click", (event) => {
+document.querySelector("#insta-grid").addEventListener("click", (event) => {
   const img = event.target.closest("img");
   if (!img) return;
   lightboxImage.src = img.src; lightboxImage.alt = img.alt; lightbox.showModal();
@@ -92,8 +88,6 @@ document.querySelectorAll('[data-contact="instagram"]').forEach((link) => {
   link.href = BAKERY.instagramUrl; link.target = "_blank"; link.rel = "noopener noreferrer";
 });
 document.querySelectorAll("[data-instagram-handle]").forEach((node) => { node.textContent = BAKERY.instagramHandle; });
-document.querySelectorAll(".gallery-more").forEach((button) => button.addEventListener("click", () => window.open(BAKERY.instagramUrl, "_blank", "noopener,noreferrer")));
-
 if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
   const observer = new IntersectionObserver((entries, instance) => entries.forEach((entry) => {
     if (entry.isIntersecting) { entry.target.classList.add("visible"); instance.unobserve(entry.target); }
